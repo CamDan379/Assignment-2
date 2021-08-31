@@ -1,5 +1,3 @@
-package skeletonCodeAssgnmt2;
-
 import javax.swing.*;
 
 import java.awt.*;
@@ -134,7 +132,10 @@ public class WordApp {
 		totalWords=Integer.parseInt(args[0]);  //total words to fall
 		noWords=Integer.parseInt(args[1]); // total words falling at any point
 		assert(totalWords>=noWords); // this could be done more neatly
-		String[] tmpDict=getDictFromFile(args[2]); //file of words
+		String[] tmpDict=getDictFromFile(args[2]);
+		System.out.println(totalWords); //file of words
+		System.out.println(noWords); //file of words
+		System.out.println(args[2]); //file of words
 		if (tmpDict!=null)
 			dict= new WordDictionary(tmpDict);
 		

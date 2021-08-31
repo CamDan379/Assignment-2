@@ -1,4 +1,4 @@
-package skeletonCodeAssgnmt2;
+
 //test
 
 public class Score {
@@ -28,7 +28,6 @@ public class Score {
 
 	public int getScore() {
 		return gameScore;
-		//one more test
 	}
 	
 	public void missedWord() {

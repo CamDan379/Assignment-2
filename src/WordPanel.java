@@ -1,4 +1,4 @@
-package skeletonCodeAssgnmt2;
+
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,12 +9,18 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class WordPanel extends JPanel implements Runnable {
+
+public class WordPanel extends JPanel implements Runnable, ActionListener {
 		public static volatile boolean done;
 		private WordRecord[] words;
 		private int noWords;
 		private int maxY;
+		// private int x=0;
+		// private int velX=2;
+		//Timer tm = new Timer(5,this);
+		private Thread thread;
 
 		
 		public void paintComponent(Graphics g) {
@@ -34,6 +40,11 @@ public class WordPanel extends JPanel implements Runnable {
 		    }
 		   
 		  }
+
+		  public void actionPerformed(ActionEvent e) {
+
+			//x = x +velX;
+		  }
 		
 		WordPanel(WordRecord[] words, int maxY) {
 			this.words=words; //will this work?
@@ -43,7 +54,26 @@ public class WordPanel extends JPanel implements Runnable {
 		}
 		
 		public void run() {
-			//add in code to animate this
+		//add in code to animate this
+		\
+		
+
+
+		}
+
+		public synchronized void start(){
+			thread = new Thread(this);
+			thread.start();
+		}
+		public synchronized void stop(){
+			try
+			{
+				thread.join();
+			}
+			catch(InterruptedException e)
+			{
+				System.out.println("interrupted "+e);
+			}
 		}
 
 	}
