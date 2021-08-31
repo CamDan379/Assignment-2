@@ -28,6 +28,7 @@ public class Score {
 
 	public int getScore() {
 		return gameScore;
+		//one more test
 	}
 	
 	public void missedWord() {
