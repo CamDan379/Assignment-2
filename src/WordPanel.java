@@ -55,8 +55,8 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		
 		public void run() {
 		//add in code to animate this
-		\
 		
+
 
 
 		}
