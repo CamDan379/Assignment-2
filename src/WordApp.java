@@ -30,6 +30,8 @@ public class WordApp {
 	static 	Score score = new Score();
 
 	static WordPanel w;
+
+	static Thread[] threads;
 	
 	
 	
@@ -64,7 +66,13 @@ public class WordApp {
 	         String text = textEntry.getText();
 	          //[snip]
 			  for (int i = 0; i < words.length; i++) {
-				  
+					if(words[i].equals(text) && words[i].getOnScreen()) {
+						score.caughtWord(text.length());
+						words[i].setOnScreen(false);
+						words[i].dropped();
+
+						//need to add new word logic, maybe in thread running just before repainting, check if still on screen if not then choose new word
+				  	}
 			  }
 	         textEntry.setText("");
 	         textEntry.requestFocus();
@@ -86,18 +94,21 @@ public class WordApp {
 		   {
 			   gameStarted = true;
 		      //[snip]
-			  w.start();
+			  w.startPanel();
+			  
 		      textEntry.requestFocus();  //return focus to the text entry field
 		   }
 		});
-		JButton endB = new JButton("End");;
+		JButton endB = new JButton("End");
 			
 				// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener()
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
-		      w.stop();
+			   	gameStarted = false;
+		    	w.stop();
+			
 		   }
 		});
 		
@@ -148,7 +159,7 @@ public class WordApp {
 		WordRecord.dict=dict; //set the class dictionary for the words.
 		
 		words = new WordRecord[noWords];  //shared array of current words
-		
+		threads = new Thread[words.length];
 		//[snip]
 		
 		setupGUI(frameX, frameY, yLimit);  

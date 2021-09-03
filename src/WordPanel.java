@@ -19,7 +19,8 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		// private int velX=2;
 		private Score scr = new Score();
 		Timer tm = new Timer(5,this);
-		private Thread thread;
+		private Thread[] threads;
+		private Thread mainThread;
 
 		
 		public void paintComponent(Graphics g) {
@@ -37,7 +38,8 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		    for (int i=0;i<noWords;i++){	    	
 		    	//g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());	
 				//int temp = words[i].getY()+20+(int)((y*(words[i].getSpeed()/1500)));
-		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());  //y-offset for skeleton so that you can see the words	
+		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());
+				//threads[i].start();
 		    }
 			tm.start();
 		   
@@ -57,7 +59,12 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 			this.words=words; //will this work?
 			noWords = words.length;
 			done=false;
-			this.maxY=maxY;		
+			this.maxY=maxY;
+			threads = new Thread[words.length];
+			for(int i = 0; i < words.length; i++){
+				threads[i] = new Thread(words[i]);
+				threads[i].start();
+			}
 		}
 		
 		public void run() {
@@ -68,14 +75,21 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 
 		}
 
-		public synchronized void start(){
-			thread = new Thread(this);
-			thread.start();
+		public synchronized void startPanel(){
+			mainThread = new Thread(this);
+			mainThread.start();
+			for (int i = 0; i < words.length; i++) {
+				threads[i] = new Thread(words[i]);
+				threads[i].start();
+			}
 		}
 		public synchronized void stop(){
 			try
 			{
-				thread.join();
+				for(int i = 0; i < threads.length; i++){
+					threads[i].interrupt();
+				}
+				mainThread.join();
 			}
 			catch(InterruptedException e)
 			{

@@ -39,9 +39,9 @@ public class WordRecord implements Runnable{
 	{
 		while(getY()<maxY)
 		{
+			drop(10);
 			try
 			{
-				drop(10);
 				Thread.sleep(fallingSpeed);
 			}
 			catch(InterruptedException e)
