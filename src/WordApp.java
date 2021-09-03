@@ -21,6 +21,7 @@ public class WordApp {
    	static int frameX=1000;
 	static int frameY=600;
 	static int yLimit=480;
+	static boolean gameStarted = false;
 
 	static WordDictionary dict = new WordDictionary(); //use default dictionary, to read from file eventually
 
@@ -62,6 +63,9 @@ public class WordApp {
 	      public void actionPerformed(ActionEvent evt) {
 	         String text = textEntry.getText();
 	          //[snip]
+			  for (int i = 0; i < words.length; i++) {
+				  
+			  }
 	         textEntry.setText("");
 	         textEntry.requestFocus();
 	      }
@@ -80,6 +84,7 @@ public class WordApp {
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
+			   gameStarted = true;
 		      //[snip]
 		      textEntry.requestFocus();  //return focus to the text entry field
 		   }

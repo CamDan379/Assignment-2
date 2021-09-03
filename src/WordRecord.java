@@ -1,6 +1,5 @@
 
-
-public class WordRecord {
+public class WordRecord implements Runnable{
 	private String text;
 	private  int x;
 	private int y;
@@ -33,6 +32,11 @@ public class WordRecord {
 		this(text);
 		this.x=x;
 		this.maxY=maxY;
+	}
+
+	public void run()
+	{
+		
 	}
 	
 // all getters and setters must be synchronized

@@ -1,5 +1,3 @@
-
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
@@ -17,9 +15,10 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		private WordRecord[] words;
 		private int noWords;
 		private int maxY;
-		// private int x=0;
+		private int y=0;
 		// private int velX=2;
-		//Timer tm = new Timer(5,this);
+		private Score scr = new Score();
+		Timer tm = new Timer(5,this);
 		private Thread thread;
 
 		
@@ -36,14 +35,21 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		   //animation must be added 
 		    for (int i=0;i<noWords;i++){	    	
 		    	//g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());	
-		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY()+20);  //y-offset for skeleton so that you can see the words	
+				//int temp = words[i].getY()+20+(int)((y*(words[i].getSpeed()/1500)));
+		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY()+20+y);  //y-offset for skeleton so that you can see the words	
 		    }
+			tm.start();
 		   
 		  }
 
 		  public void actionPerformed(ActionEvent e) {
-
-			//x = x +velX;
+			if(y>500){
+				this.setVisible(false);
+				scr.missedWord();
+				return;
+			}
+			y += 2;
+			repaint();
 		  }
 		
 		WordPanel(WordRecord[] words, int maxY) {
@@ -55,7 +61,9 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		
 		public void run() {
 		//add in code to animate this
-		
+		javax.swing.Timer t = new Timer(1, new ActionListener() {
+			
+		})
 
 
 
