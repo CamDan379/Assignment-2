@@ -5,6 +5,7 @@ public class WordRecord implements Runnable{
 	private int y;
 	private int maxY;
 	private boolean dropped;
+	private boolean onScreen = false;
 	
 	private int fallingSpeed;
 	private static int maxWait=1500;
@@ -36,7 +37,18 @@ public class WordRecord implements Runnable{
 
 	public void run()
 	{
-		
+		while(getY()<maxY)
+		{
+			try
+			{
+				drop(10);
+				Thread.sleep(fallingSpeed);
+			}
+			catch(InterruptedException e)
+			{
+				System.out.println(e);
+			}
+		}
 	}
 	
 // all getters and setters must be synchronized
@@ -54,6 +66,10 @@ public class WordRecord implements Runnable{
 	
 	public synchronized  void setWord(String text) {
 		this.text=text;
+	}
+
+	public synchronized void setOnScreen(boolean onScreen){
+		this.onScreen = onScreen;
 	}
 
 	public synchronized  String getWord() {
@@ -76,6 +92,11 @@ public class WordRecord implements Runnable{
 		setY(y);
 		setX(x);
 	}
+	
+	public synchronized boolean getOnScreen(){
+		return this.onScreen;
+	}
+	
 	public synchronized void resetPos() {
 		setY(0);
 	}

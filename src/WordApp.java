@@ -76,8 +76,8 @@ public class WordApp {
 	   g.add(txt);
 	    
 	   JPanel b = new JPanel();
-      b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS)); 
-	   JButton startB = new JButton("Start");;
+       b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS)); 
+	   JButton startB = new JButton("Start");
 		
 			// add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener()
@@ -86,6 +86,7 @@ public class WordApp {
 		   {
 			   gameStarted = true;
 		      //[snip]
+			  w.start();
 		      textEntry.requestFocus();  //return focus to the text entry field
 		   }
 		});
@@ -96,7 +97,7 @@ public class WordApp {
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
-		      //[snip]
+		      w.stop();
 		   }
 		});
 		
@@ -157,7 +158,7 @@ public class WordApp {
 	  	//initialize shared array of current words
 
 		for (int i=0;i<noWords;i++) {
-			words[i]=new WordRecord(dict.getNewWord(),i*x_inc,yLimit);
+			words[i]=new WordRecord(dict.getNewWord(), i * x_inc, yLimit);
 		}
 	}
 }

@@ -23,6 +23,7 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 
 		
 		public void paintComponent(Graphics g) {
+			
 		    int width = getWidth();
 		    int height = getHeight();
 		    g.clearRect(0,0,width,height);
@@ -36,19 +37,19 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		    for (int i=0;i<noWords;i++){	    	
 		    	//g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());	
 				//int temp = words[i].getY()+20+(int)((y*(words[i].getSpeed()/1500)));
-		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY()+20+y);  //y-offset for skeleton so that you can see the words	
+		    	g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());  //y-offset for skeleton so that you can see the words	
 		    }
 			tm.start();
 		   
 		  }
 
 		  public void actionPerformed(ActionEvent e) {
-			if(y>500){
-				this.setVisible(false);
-				scr.missedWord();
-				return;
-			}
-			y += 2;
+			// if(y>500){
+			// 	this.setVisible(false);
+			// 	scr.missedWord();
+			// 	return;
+			// }
+			// y += 2;
 			repaint();
 		  }
 		
@@ -61,11 +62,9 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		
 		public void run() {
 		//add in code to animate this
-		javax.swing.Timer t = new Timer(1, new ActionListener() {
-			
-		})
-
-
+			System.out.println("test");
+			javax.swing.Timer t = new Timer(5, this);
+			tm.start();
 
 		}
 

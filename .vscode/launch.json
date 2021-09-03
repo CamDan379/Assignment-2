@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "${file}",
             "args": [
-                "11", "2", "\"example_dict.txt\""
+                "11", "2", "example_dict.txt"
              ]
         },
         {
@@ -18,7 +18,7 @@
             "name": "Launch WordApp",
             "request": "launch",
             "mainClass": "WordApp",
-            "projectName": "Assignment 2_2c52457b",
+            "projectName": "Assignment-2_e890da0b",
             "args": [
                 "11", "2", "example_dict.txt"
              ]
