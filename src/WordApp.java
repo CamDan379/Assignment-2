@@ -37,48 +37,55 @@ public class WordApp {
 	
 	public static void setupGUI(int frameX,int frameY,int yLimit) {
 		// Frame init and dimensions
-    	JFrame frame = new JFrame("WordGame"); 
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setSize(frameX, frameY);
-      JPanel g = new JPanel();
-      g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
-      g.setSize(frameX,frameY);
-    	
-		w = new WordPanel(words,yLimit);
-		w.setSize(frameX,yLimit+100);
-	   g.add(w); 
-	    
-      JPanel txt = new JPanel();
-      txt.setLayout(new BoxLayout(txt, BoxLayout.LINE_AXIS)); 
-      JLabel caught =new JLabel("Caught: " + score.getCaught() + "    ");
-      JLabel missed =new JLabel("Missed:" + score.getMissed()+ "    ");
-      JLabel scr =new JLabel("Score:" + score.getScore()+ "    ");    
-      txt.add(caught);
-	   txt.add(missed);
-	   txt.add(scr);
-    
-	    //[snip]
-  
-	   final JTextField textEntry = new JTextField("",20);
-	   textEntry.addActionListener(new ActionListener()
-	   {
-	      public void actionPerformed(ActionEvent evt) {
-	         String text = textEntry.getText();
-	          //[snip]
-			  for (int i = 0; i < words.length; i++) {
-					if(words[i].equals(text) && words[i].getOnScreen()) {
-						score.caughtWord(text.length());
-						words[i].setOnScreen(false);
-						words[i].dropped();
+		JFrame frame = new JFrame("WordGame");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(frameX, frameY);
+		JPanel g = new JPanel();
+		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS));
+		g.setSize(frameX, frameY);
 
-						//need to add new word logic, maybe in thread running just before repainting, check if still on screen if not then choose new word
-				  	}
-			  }
-	         textEntry.setText("");
-	         textEntry.requestFocus();
-	      }
-	   });
-	   
+		w = new WordPanel(words, yLimit);
+		w.setSize(frameX, yLimit + 100);
+		g.add(w);
+
+		JPanel txt = new JPanel();
+		txt.setLayout(new BoxLayout(txt, BoxLayout.LINE_AXIS));
+		JLabel caught = new JLabel("Caught: " + score.getCaught() + "    ");
+		JLabel missed = new JLabel("Missed:" + score.getMissed() + "    ");
+		JLabel scr = new JLabel("Score:" + score.getScore() + "    ");
+		txt.add(caught);
+		txt.add(missed);
+		txt.add(scr);
+
+		// [snip]
+  
+	   	final JTextField textEntry = new JTextField("", 20);
+	   	textEntry.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				String text = textEntry.getText();
+				// [snip]
+				for (int i = 0; i < words.length; i++) {
+					if (words[i].matchWord(text)) {
+						score.caughtWord(text.length());
+						//words[i].setOnScreen(false);
+						System.out.println("Match works");
+						int temp = score.getCaught();
+						int temp2 = score.getScore();
+						caught.setText("Caught: " + score.getCaught() + "    ");
+						scr.setText("Score:" + score.getScore() + "    ");
+						if(score.getTotal()==noWords) {
+							w.stopGame();
+						}
+
+						// need to add new word logic, maybe in thread running just before repainting,
+						// check if still on screen if not then choose new word
+					}
+				}
+				textEntry.setText("");
+				textEntry.requestFocus();
+			}
+		});
+
 	   txt.add(textEntry);
 	   txt.setMaximumSize( txt.getPreferredSize() );
 	   g.add(txt);
@@ -106,14 +113,29 @@ public class WordApp {
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
-			   	gameStarted = false;
-		    	w.stop();
+			   if(gameStarted){
+				gameStarted = false;
+		    	w.stopGame();
+			   }
+			   else{
+				   JOptionPane.showMessageDialog(null, "No Game Started");
+			   }
+		   }
+		});
+		JButton quitB = new JButton("Quit");
 			
+				// add the listener to the jbutton to handle the "pressed" event
+		quitB.addActionListener(new ActionListener()
+		{
+		   public void actionPerformed(ActionEvent e)
+		   {
+			   	System.exit(0);
 		   }
 		});
 		
 		b.add(startB);
 		b.add(endB);
+		b.add(quitB);
 		
 		g.add(b);
     	
@@ -144,7 +166,6 @@ public class WordApp {
 	}
 
 	public static void main(String[] args) {
-    	
 		//deal with command line arguments
 		totalWords=Integer.parseInt(args[0]);  //total words to fall
 		noWords=Integer.parseInt(args[1]); // total words falling at any point

@@ -40,13 +40,14 @@ public class WordRecord implements Runnable{
 		while(getY()<maxY)
 		{
 			drop(10);
-			try
-			{
+			try {
 				Thread.sleep(fallingSpeed);
+			} catch (InterruptedException e) {
+				System.out.println("error " + e);
 			}
-			catch(InterruptedException e)
-			{
-				System.out.println(e);
+			if (getY() == maxY) {
+				resetWord();
+				
 			}
 		}
 	}

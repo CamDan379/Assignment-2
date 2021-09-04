@@ -83,7 +83,7 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 				threads[i].start();
 			}
 		}
-		public synchronized void stop(){
+		public synchronized void stopGame(){
 			try
 			{
 				for(int i = 0; i < threads.length; i++){

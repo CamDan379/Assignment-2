@@ -32,6 +32,7 @@ public class Score {
 	
 	public synchronized void missedWord() {
 		missedWords++;
+		
 	}
 
 	public synchronized void caughtWord(int length) {
