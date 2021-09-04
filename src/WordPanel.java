@@ -19,7 +19,7 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		// private int velX=2;
 		private Score scr = new Score();
 		Timer tm = new Timer(5,this);
-		private Thread[] threads;
+		private Thread threads;
 		private Thread mainThread;
 
 		
@@ -60,11 +60,11 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 			noWords = words.length;
 			done=false;
 			this.maxY=maxY;
-			threads = new Thread[words.length];
-			for(int i = 0; i < words.length; i++){
-				threads[i] = new Thread(words[i]);
-				threads[i].start();
-			}
+			//threads = new Thread[words.length];
+			// for(int i = 0; i < words.length; i++){
+			// 	threads = new Thread(words[i]);
+			// 	threads.start();
+			// }
 		}
 		
 		public void run() {
@@ -79,21 +79,16 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 			mainThread = new Thread(this);
 			mainThread.start();
 			for (int i = 0; i < words.length; i++) {
-				threads[i] = new Thread(words[i]);
-				threads[i].start();
+				threads = new Thread(words[i]);
+				threads.start();
 			}
 		}
 		public synchronized void stopGame(){
-			try
-			{
-				for(int i = 0; i < threads.length; i++){
-					threads[i].join();
-				}
+			try {
+				threads.join();
 				mainThread.join();
-			}
-			catch(InterruptedException e)
-			{
-				System.out.println("interrupted "+e);
+			} catch (InterruptedException e) {
+				System.out.println("interrupted " + e);
 			}
 		}
 

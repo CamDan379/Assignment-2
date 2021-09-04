@@ -32,12 +32,15 @@ public class WordApp {
 	static WordPanel w;
 
 	static Thread[] threads;
+
+	static boolean flag = false;
+	static JFrame frame = new JFrame("WordGame");
 	
 	
 	
 	public static void setupGUI(int frameX,int frameY,int yLimit) {
 		// Frame init and dimensions
-		JFrame frame = new JFrame("WordGame");
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(frameX, frameY);
 		JPanel g = new JPanel();
@@ -64,33 +67,28 @@ public class WordApp {
 			public void actionPerformed(ActionEvent evt) {
 				String text = textEntry.getText();
 				// [snip]
-				for (int i = 0; i < words.length; i++) {
-					if (words[i].matchWord(text)) {
-						score.caughtWord(text.length());
-						//words[i].setOnScreen(false);
-						System.out.println("Match works");
-						int temp = score.getCaught();
-						int temp2 = score.getScore();
-						caught.setText("Caught: " + score.getCaught() + "    ");
-						scr.setText("Score:" + score.getScore() + "    ");
-						if(score.getTotal()==noWords) {
-							System.out.println("help");
-							w.stopGame();
-							System.out.println("help2");
-							JOptionPane.showMessageDialog(null, "Game Over \nScore: "+score.getScore()/*, "Game Over", JOptionPane.INFORMATION_MESSAGE*/);
+
+				//while (score.getTotal() < noWords) {
+					for (int i = 0; i < words.length; i++) {
+						if (words[i].matchWord(text)) {
+							score.caughtWord(text.length());
+							System.out.println(score.getTotal());
+							caught.setText("Caught: " + score.getCaught() + "    ");
+							scr.setText("Score:" + score.getScore() + "    ");
 						}
 
 						// need to add new word logic, maybe in thread running just before repainting,
 						// check if still on screen if not then choose new word
 					}
-				}
+				//}
+				System.out.println("Testing");
 				textEntry.setText("");
 				textEntry.requestFocus();
 			}
 		});
 
 	   txt.add(textEntry);
-	   txt.setMaximumSize( txt.getPreferredSize() );
+	   txt.setMaximumSize( txt.getPreferredSize());
 	   g.add(txt);
 	    
 	   JPanel b = new JPanel();
@@ -105,6 +103,28 @@ public class WordApp {
 			   gameStarted = true;
 		      //[snip]
 			  w.startPanel();
+			  
+			  Timer t = new Timer(1, new ActionListener(){
+				  public void actionPerformed(ActionEvent e)
+				  {
+					if (score.getTotal() >= totalWords) {
+						// JOptionPane.showMessageDialog(null, "Game Over \nScore: "+ score.getScore());
+						System.out.println("Score: " + score.getScore());
+						frame.remove(w);
+						frame.repaint();
+						w.repaint();
+						flag = true;
+						// setupGUI(frameX, frameY, yLimit);
+						// w.stopGame();
+					}
+				  }
+			  });
+			  
+				  
+			  t.start();
+			  if(flag){
+				  t.stop();
+			  }
 			  
 		      textEntry.requestFocus();  //return focus to the text entry field
 		   }
@@ -168,6 +188,7 @@ public class WordApp {
 		return dictStr;
 	}
 
+	
 	public static void main(String[] args) {
 		//deal with command line arguments
 		totalWords=Integer.parseInt(args[0]);  //total words to fall

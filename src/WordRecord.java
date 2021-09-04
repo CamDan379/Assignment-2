@@ -46,8 +46,8 @@ public class WordRecord implements Runnable{
 				System.out.println("error " + e);
 			}
 			if (getY() == maxY) {
+				//inc missed
 				resetWord();
-				
 			}
 		}
 	}
