@@ -87,7 +87,7 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 			try
 			{
 				for(int i = 0; i < threads.length; i++){
-					threads[i].interrupt();
+					threads[i].join();
 				}
 				mainThread.join();
 			}

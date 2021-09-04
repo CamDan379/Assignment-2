@@ -74,7 +74,10 @@ public class WordApp {
 						caught.setText("Caught: " + score.getCaught() + "    ");
 						scr.setText("Score:" + score.getScore() + "    ");
 						if(score.getTotal()==noWords) {
+							System.out.println("help");
 							w.stopGame();
+							System.out.println("help2");
+							JOptionPane.showMessageDialog(null, "Game Over \nScore: "+score.getScore()/*, "Game Over", JOptionPane.INFORMATION_MESSAGE*/);
 						}
 
 						// need to add new word logic, maybe in thread running just before repainting,
@@ -182,7 +185,6 @@ public class WordApp {
 		words = new WordRecord[noWords];  //shared array of current words
 		threads = new Thread[words.length];
 		//[snip]
-		
 		setupGUI(frameX, frameY, yLimit);  
     	//Start WordPanel thread - for redrawing animation
 
