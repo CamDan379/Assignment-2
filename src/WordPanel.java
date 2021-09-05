@@ -10,17 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
-public class WordPanel extends JPanel implements Runnable, ActionListener {
+public class WordPanel extends JPanel implements ActionListener {
 		public static volatile boolean done;
 		private WordRecord[] words;
 		private int noWords;
 		private int maxY;
-		private int y=0;
-		// private int velX=2;
-		private Score scr = new Score();
+		private Score score;
 		Timer tm = new Timer(5,this);
 		private Thread threads;
-		private Thread mainThread;
+		// private Thread mainThread;
 
 		
 		public void paintComponent(Graphics g) {
@@ -45,7 +43,7 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 		   
 		  }
 
-		  public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			// if(y>500){
 			// 	this.setVisible(false);
 			// 	scr.missedWord();
@@ -60,36 +58,33 @@ public class WordPanel extends JPanel implements Runnable, ActionListener {
 			noWords = words.length;
 			done=false;
 			this.maxY=maxY;
-			//threads = new Thread[words.length];
-			// for(int i = 0; i < words.length; i++){
-			// 	threads = new Thread(words[i]);
-			// 	threads.start();
-			// }
 		}
 		
-		public void run() {
-		//add in code to animate this
-			System.out.println("test");
-			javax.swing.Timer t = new Timer(5, this);
-			tm.start();
+		// public void run() {
+		// //add in code to animate this
+		// 	// System.out.println("test");
+		// 	// javax.swing.Timer t = new Timer(5, this);
+		// 	// tm.start();
 
-		}
+		// }
 
 		public synchronized void startPanel(){
-			mainThread = new Thread(this);
-			mainThread.start();
+			// mainThread = new Thread(this);
+			// mainThread.start();
 			for (int i = 0; i < words.length; i++) {
 				threads = new Thread(words[i]);
 				threads.start();
 			}
 		}
 		public synchronized void stopGame(){
-			try {
-				threads.join();
-				mainThread.join();
-			} catch (InterruptedException e) {
-				System.out.println("interrupted " + e);
-			}
+			// try {
+				// mainThread.join();
+				for (int i = 0; i < words.length; i++) {
+					words[i].threadEnd();
+				}
+			// } catch (InterruptedException e) {
+			// 	System.out.println("interrupted " + e);
+			// }
 		}
 
 	}

@@ -6,10 +6,12 @@ public class WordRecord implements Runnable{
 	private int maxY;
 	private boolean dropped;
 	private boolean onScreen = false;
+	private Score score;
 	
 	private int fallingSpeed;
 	private static int maxWait=1500;
 	private static int minWait=100;
+	private boolean threadEnded;
 
 	public static WordDictionary dict;
 	
@@ -29,15 +31,17 @@ public class WordRecord implements Runnable{
 		this.text=text;
 	}
 	
-	WordRecord(String text,int x, int maxY) {
+	WordRecord(String text,int x, int maxY, Score score) {
 		this(text);
 		this.x=x;
 		this.maxY=maxY;
+		this.score=score;
 	}
 
 	public void run()
 	{
-		while(getY()<maxY)
+		threadEnded=false;
+		while(getY()<maxY && !threadEnded )
 		{
 			drop(10);
 			try {
@@ -46,9 +50,9 @@ public class WordRecord implements Runnable{
 				System.out.println("error " + e);
 			}
 			if (getY() == maxY) {
-				//inc missed
+				score.missedWord();
 				resetWord();
-			}
+			}		
 		}
 	}
 	
@@ -106,13 +110,10 @@ public class WordRecord implements Runnable{
 		resetPos();
 		text=dict.getNewWord();
 		dropped=false;
-		fallingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait); 
-		//System.out.println(getWord() + " falling speed = " + getSpeed());
-
+		fallingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait);
 	}
 	
 	public synchronized boolean matchWord(String typedText) {
-		//System.out.println("Matching against: "+text);
 		if (typedText.equals(this.text)) {
 			resetWord();
 			return true;
@@ -130,4 +131,7 @@ public class WordRecord implements Runnable{
 		return dropped;
 	}
 
+	public synchronized void threadEnd(){
+		threadEnded=true;
+	}
 }
